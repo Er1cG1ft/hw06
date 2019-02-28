@@ -7,6 +7,7 @@ defmodule Hw06Web.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Hw06Web.Plugs.FetchSession
   end
 
   pipeline :api do
@@ -17,6 +18,10 @@ defmodule Hw06Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    
+    resources "/users", UserController
+    resources "/sessions", SessionController, only: [:create, :delete], singleton: true
+    resources "/tasks", TaskController
   end
 
   # Other scopes may use custom stacks.
