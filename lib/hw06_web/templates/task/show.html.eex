@@ -18,6 +18,11 @@
   </li>
   
   <li>
+    <strong>Assignee:</strong>
+    <%= @task.assigned_user %>
+  </li>
+  
+  <li>
   <%= for task_time <- @task_times do %>
     <%= task_time.time %>
   <% end %>

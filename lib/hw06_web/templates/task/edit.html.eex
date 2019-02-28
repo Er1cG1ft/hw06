@@ -1,5 +1,10 @@
-<h1>Edit Task</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.task_path(@conn, :update, @task)) %>
-
-<span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>
+<div class="card">
+  <h5 class="card-header">Edit Task</h5>
+  <div class="card-body">
+      <span><%= link "Back", to: Routes.task_path(@conn, :index), class: "btn btn-primary"  %></span>
+      <%= if @task.assigned_user == @current_user.id || @current_user.admin do %>
+        <%= link "Delete", to: Routes.task_path(@conn, :delete, @task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+      <% end %>
+    <%= render "edit_form.html", Map.put(assigns, :action, Routes.task_path(@conn, :update, @task, @users)) %>
+  </div>
+</div>

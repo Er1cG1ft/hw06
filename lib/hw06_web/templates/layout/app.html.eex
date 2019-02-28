@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hw06 · Phoenix Framework</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
   <body>
     <div class="container">
@@ -31,12 +32,6 @@
             <%= link("Logout", to: Routes.session_path(@conn, :delete),
               method: :delete) %>
           </p>
-        <% else %>
-          <%= form_for @conn, Routes.session_path(@conn, :create),
-                  [class: "form-inline"], fn f -> %>
-            <%= text_input f, :email, class: "form-control" %>
-            <%= submit "Login", class: "btn btn-secondary" %>
-          <% end %>
         <% end %>
       </nav>
 

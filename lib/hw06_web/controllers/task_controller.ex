@@ -3,6 +3,9 @@ defmodule Hw06Web.TaskController do
 
   alias Hw06.Tasks
   alias Hw06.Tasks.Task
+  alias Hw06.Users
+  
+  plug :authenticate_user
 
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
@@ -11,7 +14,7 @@ defmodule Hw06Web.TaskController do
 
   def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, users: Users.get_for_select)
   end
 
   def create(conn, %{"task" => task_params}) do
@@ -35,7 +38,7 @@ defmodule Hw06Web.TaskController do
   def edit(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     changeset = Tasks.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset)
+    render(conn, "edit.html", task: task, changeset: changeset, users: Users.get_for_select)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
@@ -60,4 +63,15 @@ defmodule Hw06Web.TaskController do
     |> put_flash(:info, "Task deleted successfully.")
     |> redirect(to: Routes.task_path(conn, :index))
   end
+  
+  defp authenticate_user(conn, _params) do
+  if conn.assigns.current_user != nil do
+    conn
+  else
+    conn
+    |> put_flash(:error, "You need to sign in or sign up before continuing.")
+    |> redirect(to: Routes.page_path(conn, :index))
+    |> halt()
+  end
+end
 end
