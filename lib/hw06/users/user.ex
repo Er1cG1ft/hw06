@@ -6,7 +6,7 @@ defmodule Hw06.Users.User do
   schema "users" do
     field :admin, :boolean, default: false
     field :email, :string
-
+    has_many :tasks, Hw06.Task, on_delete: :delete_all
     timestamps()
   end
 

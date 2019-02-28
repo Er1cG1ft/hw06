@@ -16,6 +16,12 @@
     <strong>Completed:</strong>
     <%= @task.completed %>
   </li>
+  
+  <li>
+  <%= for task_time <- @task_times do %>
+    <%= task_time.time %>
+  <% end %>
+  </li>
 
 </ul>
 

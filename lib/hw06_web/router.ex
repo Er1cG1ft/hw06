@@ -22,6 +22,7 @@ defmodule Hw06Web.Router do
     resources "/users", UserController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
     resources "/tasks", TaskController
+    resources "/task_times", TaskTimeController
   end
 
   # Other scopes may use custom stacks.

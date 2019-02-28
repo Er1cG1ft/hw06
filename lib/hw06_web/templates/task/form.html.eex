@@ -13,10 +13,6 @@
   <%= text_input f, :description %>
   <%= error_tag f, :description %>
 
-  <%= label f, :completed %>
-  <%= checkbox f, :completed %>
-  <%= error_tag f, :completed %>
-
   <div>
     <%= submit "Save" %>
   </div>

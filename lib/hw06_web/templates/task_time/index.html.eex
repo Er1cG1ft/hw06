@@ -1,0 +1,26 @@
+<h1>Listing Task times</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Time</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for task_time <- @task_times do %>
+    <tr>
+      <td><%= task_time.time %></td>
+
+      <td>
+        <%= link "Show", to: Routes.task_time_path(@conn, :show, task_time) %>
+        <%= link "Edit", to: Routes.task_time_path(@conn, :edit, task_time) %>
+        <%= link "Delete", to: Routes.task_time_path(@conn, :delete, task_time), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Task time", to: Routes.task_time_path(@conn, :new) %></span>

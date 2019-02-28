@@ -107,4 +107,10 @@ defmodule Hw06.Users do
   def get_user_by_email(email) do
     Repo.get_by(User, email: email)
   end
+  
+  def get_for_select do
+    #query = from(p in User, select: {p.email, p.id})
+    #Repo.all(query)
+    Repo.all from u in User, select: {u.email, u.id}
+  end
 end

@@ -15,7 +15,7 @@ defmodule Hw06.Tasks.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:title, :description, :completed])
-    |> validate_required([:title, :description, :completed])
+    |> cast(attrs, [:title, :description, :completed, :assigned_user])
+    |> validate_required([:title, :description, :completed, :assigned_user])
   end
 end

@@ -28,7 +28,8 @@ defmodule Hw06Web.TaskController do
 
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
-    render(conn, "show.html", task: task)
+    task_times = Tasks.get_task_times_for_task(id)
+    render(conn, "show.html", task: task, task_times: task_times)
   end
 
   def edit(conn, %{"id" => id}) do
