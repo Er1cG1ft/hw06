@@ -12,5 +12,5 @@
 alias Hw06.Repo
 alias Hw06.Users.User
 
-Repo.insert!(%User{email: "giftsoccer14@gmail.com", admin: true})
-Repo.insert!(%User{email: "eric.j.gift@gmail.com", admin: false})
+Repo.insert!(%User{email: "admin@gmail.com", admin: true, first_name: "Admin", last_name: "User"})
+Repo.insert!(%User{email: "user@gmail.com", admin: false, first_name: "Demo", last_name: "User"})

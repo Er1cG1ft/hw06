@@ -1,34 +1,85 @@
-<h1>Listing Tasks</h1>
+<% alias Hw06.Users %>
+<% alias Hw06.Tasks %>
+<h1>Tasks</h1>
 <span><%= link "New Task", to: Routes.task_path(@conn, :new), class: "btn btn-success mt-2 mb-2" %></span>
+<h3>Your Tasks</h3>
+<%= if Tasks.get_assigned_count(@current_user.id) == 0 do %>
+  <em>You have no assigned tasks!</em>
+<% else %>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>Title</th>
       <th>Description</th>
       <th>Completed</th>
-
       <th></th>
     </tr>
   </thead>
   <tbody>
-<%= for task <- @tasks do %>
-    <tr>
-      <td><%= task.title %></td>
-      <td><%= task.description %></td>
-      <td><%= if task.completed do %>
-        <i class="fas fa-2x fa-check-circle green"></i>
-        <% else %>
-        <i class="fas fa-2x fa-times-circle red"></i>
-        <% end %>
-        </td>
-      <td>
-        <%= link "Show", to: Routes.task_path(@conn, :show, task), class: "btn btn-primary" %>
-        <%= link "Edit", to: Routes.task_path(@conn, :edit, task), class: "btn btn-warning" %>
-        <%= if task.assigned_user == @current_user.id || @current_user.admin do %>
-          <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
-        <% end %>
-      </td>
-    </tr>
+    <%= for task <- @tasks do %>
+      <%= if task.assigned_user == @current_user.id do %>
+        <tr>
+          <td><%= task.title %></td>
+          <td><%= task.description %></td>
+          <td>
+            <%= if task.completed do %>
+              <i class="fas fa-2x fa-check-circle green"></i>
+            <% else %>
+              <i class="fas fa-2x fa-times-circle red"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= link "Show", to: Routes.task_path(@conn, :show, task), class: "btn btn-primary" %>
+            <%= link "Edit", to: Routes.task_path(@conn, :edit, task), class: "btn btn-warning" %>
+            <%= link "Log Work", to: Routes.task_time_path(@conn, :new, %{:task_id => task.id}), class: "btn btn-warning" %>
+            <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
 <% end %>
+<hr>
+<h3>All Tasks</h3>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Completed</th>
+      <th>Assignee</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for task <- @tasks do %>
+        <tr>
+          <td><%= task.title %></td>
+          <td><%= task.description %></td>
+          <td>
+            <%= if task.completed do %>
+              <i class="fas fa-2x fa-check-circle green"></i>
+            <% else %>
+              <i class="fas fa-2x fa-times-circle red"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= if task.assigned_user != nil do %>
+              <%= Users.get_user!(task.assigned_user).email %>
+            <% else %>
+              <em>No assignee</em>
+            <% end %>
+          </td>
+          <td>
+            <%= link "Show", to: Routes.task_path(@conn, :show, task), class: "btn btn-primary" %>
+            <%= link "Edit", to: Routes.task_path(@conn, :edit, task), class: "btn btn-warning" %>
+            <%= if task.assigned_user == @current_user.id || @current_user.admin do %>
+              <%= link "Log Work", to: Routes.task_time_path(@conn, :new, %{:task_id => task.id}), class: "btn btn-warning" %>
+              <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
+            <% end %>
+          </td>
+        </tr>
+    <% end %>
   </tbody>
 </table>

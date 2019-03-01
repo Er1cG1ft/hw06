@@ -3,6 +3,8 @@ defmodule Hw06Web.UserController do
 
   alias Hw06.Users
   alias Hw06.Users.User
+  
+  plug :authenticate_user when action not in [:new, :create]
 
   def index(conn, _params) do
     users = Users.list_users()
@@ -59,5 +61,16 @@ defmodule Hw06Web.UserController do
     conn
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: Routes.user_path(conn, :index))
+  end
+  
+  def authenticate_user(conn, _params) do
+    if conn.assigns.current_user != nil do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Please log in to view this page.")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
   end
 end

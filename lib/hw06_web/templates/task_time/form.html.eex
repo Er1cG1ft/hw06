@@ -4,20 +4,22 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-
-  <%= label f, :task_id %>
-  <%= number_input f, :task_id %>
-  <%= error_tag f, :task_id %>
-
-  <%= label f, :time %>
-  <%= number_input f, :time %>
-  <%= error_tag f, :time %>
   
-  <%= label f, :user_id %>
-  <%= select f, :user_id, @users %>
-  <%= error_tag f, :user_id %>
+  <%= hidden_input f, :task_id, value: @conn.params["task_id"] %>
+
+  <%= label f, "Time (hours)" %>
+  <%= number_input f, :time, step: 1, class: "form-control", onkeypress: "return event.charCode >= 48 && event.charCode <= 57", value: 0 %>
+  <%= error_tag f, :time %> <br />
+  
+  <label>Time (minutes)</label>
+  <select class="form-control" id="task_time_minutes" name="task_time[minutes]">
+    <option value="0">0</option>
+    <option value="15">15</option>
+    <option value="30">30</option>
+    <option value="45">45</option>
+  </select>
 
   <div>
-    <%= submit "Save" %>
+    <%= submit "Save", class: "btn btn-success mt-2" %>
   </div>
 <% end %>

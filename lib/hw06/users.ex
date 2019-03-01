@@ -114,4 +114,8 @@ defmodule Hw06.Users do
     [{"No assignee", nil}] ++ Repo.all from u in User, select: {u.email, u.id}
     
   end
+  
+  def get_name(id) do
+    get_user!(id).first_name <> " " <> get_user!(id).last_name
+  end
 end

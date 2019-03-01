@@ -201,4 +201,16 @@ defmodule Hw06.Tasks do
   def get_task_times_for_task(id) do
     Repo.all from t in TaskTime, where: t.task_id == ^id
   end
+  
+  def get_assigned_count(user_id) do
+    Repo.one(from t in Task, select: count("*"), where: t.assigned_user == ^user_id)
+  end
+  
+  def get_completed_count do
+    Repo.one(from t in Task, select: count("*"), where: t.completed == true)
+  end
+  
+  def get_open_count do
+    Repo.one(from t in Task, select: count("*"), where: t.completed == false)
+  end
 end

@@ -1,20 +1,19 @@
 # Hw06
 
-To start your Phoenix server:
+## Design Choices
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+Users: 
+Fields: First Name, Last Name, Email, Admin
+Log in with email. Anyone can make an account on register page, only admins can view and add new users.  
+admin@gmail.com is provided to log in as an admin.  user@gmail.com is provided as a regular user.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Tasks:
+Fields: Title, Description, Completed, Assigned_user
+Assigned_user is a FK to Users, to assign a task to a user.  Is nullable, so a task can be unassigned.
+Assignee can be set on creation or on the edit page.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+TaskTime:
+Fields: Time, User_id, Task_id
+User_id is a FK to Users. Task_id is a FK to Tasks.  This allows the logged time to be listed on the show page of a task, with the User who logged it.
+This allows different users to log time, as long as they are assigned.  The timestamp of when the work is logged is also listed
+so people looking at the task can see when work was logged and by whom.

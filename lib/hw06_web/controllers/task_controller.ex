@@ -57,6 +57,10 @@ defmodule Hw06Web.TaskController do
 
   def delete(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
+    task_times = Tasks.get_task_times_for_task(id)
+    for time <- task_times do
+      Tasks.delete_task_time(time)
+    end
     {:ok, _task} = Tasks.delete_task(task)
 
     conn
@@ -64,14 +68,14 @@ defmodule Hw06Web.TaskController do
     |> redirect(to: Routes.task_path(conn, :index))
   end
   
-  defp authenticate_user(conn, _params) do
-  if conn.assigns.current_user != nil do
-    conn
-  else
-    conn
-    |> put_flash(:error, "You need to sign in or sign up before continuing.")
-    |> redirect(to: Routes.page_path(conn, :index))
-    |> halt()
+  def authenticate_user(conn, _params) do
+    if conn.assigns.current_user != nil do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Please log in to view this page.")
+      |> redirect(to: Routes.page_path(conn, :index))
+      |> halt()
+    end
   end
-end
 end

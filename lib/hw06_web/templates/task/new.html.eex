@@ -1,7 +1,7 @@
-<div class="card">
+<span><%= link "Back", to: Routes.task_path(@conn, :index), class: "btn btn-primary"  %></span>
+<div class="card mt-2">
   <h5 class="card-header">New Task</h5>
   <div class="card-body">
-      <span><%= link "Back", to: Routes.task_path(@conn, :index), class: "btn btn-primary"  %></span>
     <%= render "new_form.html", Map.put(assigns, :action, Routes.task_path(@conn, :create)) %>
   </div>
 </div>
