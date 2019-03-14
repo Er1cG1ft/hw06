@@ -33,7 +33,7 @@
           <h5 class="card-header">Logged Work
             <%= if @task.assigned_user == @current_user.id do %>
               <% time_block = TimeBlocks.get_last_time_block(@task.id) %>
-              <%= if time_block.end == nil do %>
+              <%= if time_block && time_block.end == nil do %>
                 <button id="end-work-button"
                     data-block-id="<%= time_block.id %>"
                     class="btn btn-danger right-btn">End Work</button>

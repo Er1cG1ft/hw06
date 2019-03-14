@@ -3,7 +3,7 @@ defmodule Hw06.MixProject do
 
   def project do
     [
-      app: :hw06,
+      app: :hw07,
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),

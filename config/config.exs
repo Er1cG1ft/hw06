@@ -7,11 +7,11 @@
 # General application configuration
 use Mix.Config
 
-config :hw06,
+config :hw07,
   ecto_repos: [Hw06.Repo]
 
 # Configures the endpoint
-config :hw06, Hw06Web.Endpoint,
+config :hw07, Hw06Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "Fi4h8LOLuxZt6fWtumKLHuHJ/eSFfcOlCR6hDNnO36SqBRAiwcbBn35ojMj06kRS",
   render_errors: [view: Hw06Web.ErrorView, accepts: ~w(html json)],

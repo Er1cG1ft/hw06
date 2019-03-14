@@ -1,5 +1,5 @@
 defmodule Hw06Web.Endpoint do
-  use Phoenix.Endpoint, otp_app: :hw06
+  use Phoenix.Endpoint, otp_app: :hw07
 
   socket "/socket", Hw06Web.UserSocket,
     websocket: true,
@@ -11,7 +11,7 @@ defmodule Hw06Web.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :hw06,
+    from: :hw07,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
