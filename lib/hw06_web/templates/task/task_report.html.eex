@@ -2,45 +2,10 @@
 <% alias Hw06.Tasks %>
 <h1>Tasks</h1>
 <span><%= link "New Task", to: Routes.task_path(@conn, :new), class: "btn btn-success mt-2 mb-2" %></span>
-<h3>Your Tasks</h3>
-<%= if Tasks.get_assigned_count(@current_user.id) == 0 do %>
-  <em>You have no assigned tasks!</em>
+<h3>Your Underlings' Tasks</h3>
+<%= if length(@tasks) == 0 do %>
+  <em>Your underlings have no tasks!</em>
 <% else %>
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Completed</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for task <- @tasks do %>
-      <%= if task.assigned_user == @current_user.id do %>
-        <tr>
-          <td><%= task.title %></td>
-          <td><%= task.description %></td>
-          <td>
-            <%= if task.completed do %>
-              <i class="fas fa-2x fa-check-circle green"></i>
-            <% else %>
-              <i class="fas fa-2x fa-times-circle red"></i>
-            <% end %>
-          </td>
-          <td>
-            <%= link "Show", to: Routes.task_path(@conn, :show, task), class: "btn btn-primary" %>
-            <%= link "Edit", to: Routes.task_path(@conn, :edit, task), class: "btn btn-warning" %>
-            <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
-          </td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
-<% end %>
-<hr>
-<h3>All Tasks</h3>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
@@ -74,6 +39,7 @@
             <%= link "Show", to: Routes.task_path(@conn, :show, task), class: "btn btn-primary" %>
             <%= link "Edit", to: Routes.task_path(@conn, :edit, task), class: "btn btn-warning" %>
             <%= if task.assigned_user == @current_user.id || @current_user.admin do %>
+              <%= link "Log Work", to: Routes.task_time_path(@conn, :new, %{:task_id => task.id}), class: "btn btn-warning" %>
               <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %>
             <% end %>
           </td>
@@ -81,3 +47,4 @@
     <% end %>
   </tbody>
 </table>
+<% end %>

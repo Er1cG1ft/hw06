@@ -13,7 +13,7 @@ defmodule Hw06Web.UserController do
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, users: Users.get_for_select)
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -31,13 +31,17 @@ defmodule Hw06Web.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+    manager = -1
+    if user.manager_id != nil do
+      manager = Users.get_user!(user.manager_id)
+    end
+    render(conn, "show.html", user: user, manager: manager, underlings: Users.get_underlings(user.id))
   end
 
   def edit(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     changeset = Users.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    render(conn, "edit.html", user: user, changeset: changeset, users: Users.get_for_select)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

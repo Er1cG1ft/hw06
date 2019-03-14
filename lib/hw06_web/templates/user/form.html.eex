@@ -21,8 +21,13 @@
     <%= label f, :admin %>
     <%= checkbox f, :admin %>
     <%= error_tag f, :admin %>
-  <% end %>
-
+  <% end %> <br />
+  
+  <%= if @current_user.admin || @current_user.id == f.id do %>
+  <%= label f, "Manager" %>
+  <%= select f, :manager_id, @users, class: "form-control" %>
+  <%= error_tag f, :manager_id %>
+  <% end %> <br />
   <div>
     <%= submit "Save", class: "btn btn-success" %>
   </div>

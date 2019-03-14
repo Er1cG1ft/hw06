@@ -6,21 +6,42 @@
     <% end %>
   </h3>
   <div class="card-body">
-    <strong>First Name:</strong>
-    <%= @user.first_name %> <br />
-    
-    <strong>Last Name:</strong>
-    <%= @user.last_name %> <br />
-    
-    <strong>Email:</strong>
-    <%= @user.email %> <br />
-    
-    
-    <strong>Admin:</strong>
-    <%= if @user.admin do %>
-      <i class="fas fa-check-circle green"></i>
-    <% else %>
-      <i class="fas fa-times-circle red"></i>
-    <% end %>
+    <div class="row">
+      <div class="col-lg-4">
+        <strong>First Name:</strong>
+        <%= @user.first_name %> <br />
+        
+        <strong>Last Name:</strong>
+        <%= @user.last_name %> <br />
+        
+        <strong>Email:</strong>
+        <%= @user.email %> <br />
+        
+        
+        <strong>Admin:</strong>
+        <%= if @user.admin do %>
+          <i class="fas fa-check-circle green"></i>
+        <% else %>
+          <i class="fas fa-times-circle red"></i>
+        <% end %>
+      </div>
+      <div class="col-lg-4">
+        <%= if @manager == -1 do %>
+          No Manager
+        <% else %>
+          Manager: <%= link @manager.first_name <> " " <> @manager.last_name, to: Routes.user_path(@conn, :show, @manager) %>
+        <% end %>
+      </div>
+      <div class="col-lg-4">
+        <%= if length(@underlings) > 0 do %>
+          Underlings:<br />
+          <%= for underling <- @underlings do %>
+            <%= link underling.first_name <> " " <> underling.last_name, to: Routes.user_path(@conn, :show, underling) %> <br />
+          <% end %>
+        <% else %>
+          No Underlings
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

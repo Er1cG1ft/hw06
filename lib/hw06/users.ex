@@ -109,13 +109,20 @@ defmodule Hw06.Users do
   end
   
   def get_for_select do
-    #query = from(p in User, select: {p.email, p.id})
-    #Repo.all(query)
-    [{"No assignee", nil}] ++ Repo.all from u in User, select: {u.email, u.id}
-    
+    [{"None", nil}] ++ Repo.all from u in User, select: {u.email, u.id}
   end
   
   def get_name(id) do
     get_user!(id).first_name <> " " <> get_user!(id).last_name
+  end
+  
+  def get_underlings(id) do
+    query = from u in User, where: u.manager_id == ^id, select: u
+    Repo.all(query)
+  end
+  
+  def get_for_select_managed(id) do
+    query = from u in User, where: u.manager_id == ^id, select: {u.email, u.id}
+    [{"None", nil}] ++ Repo.all(query)
   end
 end

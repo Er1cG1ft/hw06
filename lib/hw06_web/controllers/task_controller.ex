@@ -14,7 +14,7 @@ defmodule Hw06Web.TaskController do
 
   def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset, users: Users.get_for_select)
+    render(conn, "new.html", changeset: changeset, users: Users.get_for_select_managed(conn.assigns.current_user.id))
   end
 
   def create(conn, %{"task" => task_params}) do
@@ -38,7 +38,7 @@ defmodule Hw06Web.TaskController do
   def edit(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     changeset = Tasks.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset, users: Users.get_for_select)
+    render(conn, "edit.html", task: task, changeset: changeset, users: Users.get_for_select_managed(conn.assigns.current_user.id))
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
@@ -66,6 +66,12 @@ defmodule Hw06Web.TaskController do
     conn
     |> put_flash(:info, "Task deleted successfully.")
     |> redirect(to: Routes.task_path(conn, :index))
+  end
+  
+  def task_report(conn, _params) do
+    underlings = Users.get_underlings(conn.assigns.current_user.id)
+    tasks = Tasks.get_tasks_for_underlings(underlings)
+    render(conn, "task_report.html", tasks: tasks)
   end
   
   def authenticate_user(conn, _params) do

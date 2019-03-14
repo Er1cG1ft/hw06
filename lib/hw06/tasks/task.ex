@@ -8,6 +8,7 @@ defmodule Hw06.Tasks.Task do
     field :description, :string
     field :title, :string
     field :assigned_user, :id, default: nil
+    has_many :time_blocks, Hw06.TimeBlocks.TimeBlock
 
     timestamps()
   end

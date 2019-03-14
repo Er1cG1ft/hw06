@@ -1,4 +1,5 @@
 <% alias Hw06.Users %>
+<% alias Hw06.TimeBlocks %>
 <span><%= link "Back", to: Routes.task_path(@conn, :index), class: "btn btn-primary" %></span>
 <div class="card mt-2">
   <h3 class="card-header">Show Task 
@@ -31,21 +32,45 @@
         <div class="card">
           <h5 class="card-header">Logged Work
             <%= if @task.assigned_user == @current_user.id do %>
-              <%= link "Log Work", to: Routes.task_time_path(@conn, :new, %{:task_id => @task.id}), class: "btn btn-warning right-btn" %>
+              <% time_block = TimeBlocks.get_last_time_block(@task.id) %>
+              <%= if time_block.end == nil do %>
+                <button id="end-work-button"
+                    data-block-id="<%= time_block.id %>"
+                    class="btn btn-danger right-btn">End Work</button>
+              <% else %>
+                <button id="start-work-button"
+                    data-task-id="<%= @task.id %>"
+                    data-user-id="<%= @current_user.id %>"
+                    class="btn btn-success right-btn">Start Work</button>
+              <% end %>
             <% end %>
           </h5>
           <div class="card-body">
-            <%= if length(@task_times) == 0 do %>
+            <%= if @task.time_blocks == 0 do %>
               <em>No logged work!</em>
             <% else %>
             <table class="table table-striped table-bordered">
-            <%= for task_time <- @task_times do %>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th></th>
+                </tr>
+              </thead>
+            <%= for time_block <- @task.time_blocks do %>
             <tr>
-              <td><%= Users.get_name(task_time.user_id) %></td>
-              <td><%= task_time.time %> minutes</td>
-              <td><%= "#{task_time.inserted_at.year}-#{task_time.inserted_at.month}-#{task_time.inserted_at.day}, #{task_time.inserted_at.hour}:#{task_time.inserted_at.minute}"  %></td>
+              <td><%= Users.get_name(time_block.user_id) %></td>
+              <td><%= "#{time_block.start.year}-#{time_block.start.month}-#{time_block.start.day}, #{time_block.start.hour}:#{time_block.start.minute}"  %></td>
+              <td>
+                <%= if time_block.end == nil do %>
+                  <em>Currently working</em>
+                <% else %>
+                  <%= "#{time_block.end.year}-#{time_block.end.month}-#{time_block.end.day}, #{time_block.end.hour}:#{time_block.end.minute}"  %>
+                <% end %>
+              </td>
               <%= if @task.assigned_user == @current_user.id do %>
-              <td><%= link "Edit", to: Routes.task_time_path(@conn, :delete, @task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %></td>
+              <td><%= link "Delete", to: Routes.time_block_path(@conn, :delete, time_block), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %></td>
               <% end %>
             </tr>
             <% end %>

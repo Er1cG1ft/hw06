@@ -13,16 +13,29 @@ defmodule Hw06Web.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
+  
+  pipeline :ajax do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug Hw06Web.Plugs.FetchSession # FIXME: "FetchUser"
+  end
 
   scope "/", Hw06Web do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/task_report", TaskController, :task_report
     
     resources "/users", UserController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
     resources "/tasks", TaskController
     resources "/task_times", TaskTimeController
+  end
+  
+  scope "/ajax", Hw06Web do
+    pipe_through :ajax
+    resources "/time_blocks", TimeBlockController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.
