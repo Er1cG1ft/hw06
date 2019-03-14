@@ -31,8 +31,7 @@ defmodule Hw06Web.TaskController do
 
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
-    task_times = Tasks.get_task_times_for_task(id)
-    render(conn, "show.html", task: task, task_times: task_times)
+    render(conn, "show.html", task: task)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -57,10 +56,6 @@ defmodule Hw06Web.TaskController do
 
   def delete(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
-    task_times = Tasks.get_task_times_for_task(id)
-    for time <- task_times do
-      Tasks.delete_task_time(time)
-    end
     {:ok, _task} = Tasks.delete_task(task)
 
     conn

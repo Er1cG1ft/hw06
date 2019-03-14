@@ -8,8 +8,7 @@ defmodule Hw06.Users.User do
     field :email, :string
     field :first_name, :string
     field :last_name, :string
-    field :manager_id, :integer
-    has_many :tasks, Hw06.Tasks.Task
+    belongs_to :user, Hw06.Users.User, references: :user_id, foreign_key: :manager_id
     has_many :time_blocks, Hw06.TimeBlocks.TimeBlock
     
     timestamps()

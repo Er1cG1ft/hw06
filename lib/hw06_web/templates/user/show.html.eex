@@ -1,3 +1,4 @@
+<% alias Hw06.Users %>
 <span><%= link "Back", to: Routes.user_path(@conn, :index), class: "btn btn-primary" %></span>
 <div class="card mt-2">
   <h3 class="card-header">Show User
@@ -26,10 +27,11 @@
         <% end %>
       </div>
       <div class="col-lg-4">
-        <%= if @manager == -1 do %>
-          No Manager
+        <%= if @user.manager_id != nil do %>
+          <% manager = Users.get_user!(@user.manager_id) %>
+          Manager: <%= link manager.first_name <> " " <> manager.last_name, to: Routes.user_path(@conn, :show, manager) %>
         <% else %>
-          Manager: <%= link @manager.first_name <> " " <> @manager.last_name, to: Routes.user_path(@conn, :show, @manager) %>
+          No Manager
         <% end %>
       </div>
       <div class="col-lg-4">

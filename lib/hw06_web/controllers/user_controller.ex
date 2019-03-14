@@ -31,11 +31,7 @@ defmodule Hw06Web.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    manager = -1
-    if user.manager_id != nil do
-      manager = Users.get_user!(user.manager_id)
-    end
-    render(conn, "show.html", user: user, manager: manager, underlings: Users.get_underlings(user.id))
+    render(conn, "show.html", user: user, underlings: Users.get_underlings(user.id))
   end
 
   def edit(conn, %{"id" => id}) do
